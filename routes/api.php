@@ -18,3 +18,4 @@ Route::get('all', 'AuthController@getAll');
 Route::post('register', 'AuthController@register');
 Route::post('registerOfficer', 'AuthController@registerOfficer');
 Route::post('login', 'AuthController@login');
+Route::post('loginOfficer', 'AuthController@loginOfficer');
