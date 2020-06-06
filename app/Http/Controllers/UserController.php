@@ -74,4 +74,20 @@ class UserController extends Controller
             return $data;
         }
     }
+
+    public function getArticle()
+    {
+        $article = Article::getArticle();
+        if ($article->count() > 0) {
+            $data['status'] = "1";
+            $data['message'] = "Data tersedia";
+            $data['data'] = $article->toArray();
+            return $data;
+        } else {
+            $data['status'] = "1";
+            $data['message'] = "Data kosong";
+            $data['data'] = [];
+            return $data;
+        }
+    }
 }
