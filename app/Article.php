@@ -15,4 +15,10 @@ class Article extends Model
         $insert = Article::create($data);
         return $insert;
     }
+
+    public static function getArticle()
+    {
+        $data = Article::orderBy('id', 'desc')->get();
+        return $data;
+    }
 }

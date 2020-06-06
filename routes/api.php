@@ -23,6 +23,7 @@ Route::post('loginOfficer', 'AuthController@loginOfficer');
 //User
 Route::get('user/getOfficer', 'UserController@getOfficer');
 Route::post('user/userComplaint', 'UserController@userComplaint');
+Route::get('user/getArticle', 'UserController@getArticle');
 
 Route::post('user/insertArticle', 'UserController@insertArticle');
 
