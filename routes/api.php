@@ -19,3 +19,10 @@ Route::post('register', 'AuthController@register');
 Route::post('registerOfficer', 'AuthController@registerOfficer');
 Route::post('login', 'AuthController@login');
 Route::post('loginOfficer', 'AuthController@loginOfficer');
+
+//User
+Route::get('user/getOfficer', 'UserController@getOfficer');
+Route::post('user/userComplaint', 'UserController@userComplaint');
+
+//Officer
+Route::post('officer/getComplaintByIdOfficer', 'OfficerController@getComplaintByIdOfficer');
