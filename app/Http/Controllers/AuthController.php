@@ -12,36 +12,23 @@ class AuthController extends Controller
     {
         $email = $request->email;
         $password = $request->password;
+        $lat = $request->latitude;
+        $long = $request->longitude;
 
         $user = User::where('email', $email)->get();
         $countUser = $user->count();
-        $petugas = Officer::where('email', $email)->get();
-        $countPetugas = $petugas->count();
-
         if ($countUser > 0) {
             $user = $user->first();
             $cek = password_verify($password, $user['password']);
             if ($cek) {
+                $updateLokasi = User::where('email', $email)->update([
+                    'latitude' => $lat,
+                    'longitude' => $long
+                ]);
+                $user = User::where('email', $email)->get()->first();
                 $data['status'] = "1";
                 $data['message'] = "Berhasil masuk";
-                $data['role'] = "user";
-                $data['id'] = $user['id'];
-                $data['nama'] = $user['nama'];
-                return $data;
-            } else {
-                $data['status'] = "0";
-                $data['message'] = "Oops password anda salah";
-                return $data;
-            }
-        } elseif ($countPetugas > 0) {
-            $petugas = $petugas->first();
-            $cek = password_verify($password, $petugas['password']);
-            if ($cek) {
-                $data['status'] = "1";
-                $data['message'] = "Berhasil masuk";
-                $data['role'] = "officer";
-                $data['id'] = $petugas['id'];
-                $data['nama'] = $petugas['nama'];
+                $data['dataUser'] = $user;
                 return $data;
             } else {
                 $data['status'] = "0";
@@ -61,8 +48,9 @@ class AuthController extends Controller
         $nama = $request->nama;
         $password = $request->password;
         $enkripsi = password_hash($password, PASSWORD_BCRYPT);
-        $cekemail = $this->CheckUser($email);
-        if ($cekemail > 0) {
+        $user = User::where('email', $email)->get();
+        $countUser = $user->count();
+        if ($countUser > 0) {
             $data['status'] = "0";
             $data['message'] = "Email sudah digunakan";
             return $data;
@@ -84,6 +72,42 @@ class AuthController extends Controller
         }
     }
 
+    public function loginOfficer(Request $request)
+    {
+        $email = $request->email;
+        $password = $request->password;
+        $lat = $request->latitude;
+        $long = $request->longitude;
+
+        $officer = Officer::where('email', $email)->get();
+        $countOfficer = $officer->count();
+
+
+        if ($countOfficer > 0) {
+            $officer = $officer->first();
+            $cek = password_verify($password, $officer['password']);
+            if ($cek) {
+                $updateLokasi = Officer::where('email', $email)->update([
+                    'latitude' => $lat,
+                    'longitude' => $long
+                ]);
+                $officer = Officer::where('email', $email)->get()->first();
+                $data['status'] = "1";
+                $data['message'] = "Berhasil masuk";
+                $data['dataOfficer'] = $officer;
+                return $data;
+            } else {
+                $data['status'] = "0";
+                $data['message'] = "Oops password anda salah";
+                return $data;
+            }
+        } else {
+            $data['status'] = "0";
+            $data['message'] = "Maaf anda belum terdaftar";
+            return $data;
+        }
+    }
+
     public function registerOfficer(Request $request)
     {
         $email = $request->email;
@@ -92,8 +116,9 @@ class AuthController extends Controller
         $kendaraan = $request->kendaraan;
         $peralatan = $request->peralatan;
         $enkripsi = password_hash($password, PASSWORD_BCRYPT);
-        $cekemail = $this->CheckUser($email);
-        if ($cekemail > 0) {
+        $petugas = Officer::where('email', $email)->get();
+        $countPetugas = $petugas->count();
+        if ($countPetugas > 0) {
             $data['status'] = "0";
             $data['message'] = "Email sudah digunakan";
             return $data;
@@ -116,6 +141,8 @@ class AuthController extends Controller
             }
         }
     }
+
+
     public function getAll()
     {
         $user = User::select('*')->get();
@@ -128,23 +155,6 @@ class AuthController extends Controller
             $data['status'] = 0;
             $data['message'] = 'Data tidak tersedia';
             return $data;
-        }
-    }
-
-    public function CheckUser($email)
-    {
-        $user = User::where('email', $email)->get();
-        $countUser = $user->count();
-
-        $petugas = Officer::where('email', $email)->get();
-        $countPetugas = $petugas->count();
-
-        $count = $countUser + $countPetugas;
-
-        if ($count > 0) {
-            return 1;
-        } else {
-            return 0;
         }
     }
 }
