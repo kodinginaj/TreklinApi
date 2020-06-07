@@ -21,7 +21,7 @@ class Complaint extends Model
     }
     public static function getComplaintByIdOfficer($id)
     {
-        $data = Complaint::with('user')->where('officer_id', $id)->orderBy('id', 'desc')->get();
+        $data = Complaint::with('user')->where('officer_id', $id)->orderBy('id', 'desc')->take(10)->get();
         return $data;
     }
 

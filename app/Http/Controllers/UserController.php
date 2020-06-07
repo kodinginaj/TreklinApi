@@ -31,7 +31,6 @@ class UserController extends Controller
         $userid = $request->userid;
         $officerid = $request->officerid;
         $complaint = $request->complaint;
-
         $insert = Complaint::insertComplaint($userid, $officerid, $complaint);
 
         if ($insert->exists) {
@@ -87,6 +86,38 @@ class UserController extends Controller
             $data['status'] = "1";
             $data['message'] = "Data kosong";
             $data['data'] = [];
+            return $data;
+        }
+    }
+
+
+    public function getDetailArticle(Request $request)
+    {
+        $id = $request->id;
+        $result = Article::getArticleById($id);
+        $article = Article::getAnotherArticle($id);
+
+        if ($result['status'] == 1 && $article->count() > 0) {
+            $data['status'] = "1";
+            $data['message'] = "Data tersedia";
+            $data['data'] = $article->toArray();
+            $data['article'] = $result['article'];
+            return $data;
+        } else if ($result['status'] == 1 && !$article->count() > 0) {
+            $data['status'] = "1";
+            $data['message'] = "Data tersedia";
+            $data['data'] = [];
+            $data['article'] = $result['article'];
+            return $data;
+        } else if ($article->count() > 0) {
+            $data['status'] = "1";
+            $data['message'] = "Data tersedia";
+            $data['data'] = $article->toArray();
+            $data['article'] = null;
+            return $data;
+        } else {
+            $data['status'] = "0";
+            $data['message'] = "Data kosong";
             return $data;
         }
     }
