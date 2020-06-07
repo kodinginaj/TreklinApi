@@ -24,8 +24,10 @@ Route::post('loginOfficer', 'AuthController@loginOfficer');
 Route::get('user/getOfficer', 'UserController@getOfficer');
 Route::post('user/userComplaint', 'UserController@userComplaint');
 Route::get('user/getArticle', 'UserController@getArticle');
+Route::post('user/getDetailArticle', 'UserController@getDetailArticle');
 
 Route::post('user/insertArticle', 'UserController@insertArticle');
 
 //Officer
 Route::post('officer/getComplaintByIdOfficer', 'OfficerController@getComplaintByIdOfficer');
+Route::post('officer/updateLocation', 'OfficerController@updateLocation');

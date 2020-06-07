@@ -20,4 +20,14 @@ class Officer extends Model
         }
         return $data;
     }
+
+    public static function updateLocation($id, $data)
+    {
+        try {
+            $pekerja = Officer::where('id', $id)->update($data);
+            return 1;
+        } catch (\Illuminate\Database\QueryException $e) {
+            return 0;
+        }
+    }
 }
