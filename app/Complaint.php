@@ -7,15 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Complaint extends Model
 {
     protected $fillable = [
-        'id', 'user_id', 'officer_id', 'complaint', 'created_at', 'updated_at'
+        'id', 'user_id', 'officer_id', 'complaint', 'latitude', 'longitude', 'created_at', 'updated_at'
     ];
 
-    public static function insertComplaint($userid, $officerid, $complaint)
+    public static function insertComplaint($userid, $officerid, $complaint, $latitude, $longitude)
     {
         $insert = Complaint::create([
             'user_id' => $userid,
             'officer_id' => $officerid,
-            'complaint' => $complaint
+            'complaint' => $complaint,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
         ]);
         return $insert;
     }
