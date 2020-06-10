@@ -31,7 +31,9 @@ class UserController extends Controller
         $userid = $request->userid;
         $officerid = $request->officerid;
         $complaint = $request->complaint;
-        $insert = Complaint::insertComplaint($userid, $officerid, $complaint);
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $insert = Complaint::insertComplaint($userid, $officerid, $complaint, $latitude, $longitude);
 
         if ($insert->exists) {
             $data['status'] = "1";

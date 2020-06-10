@@ -18,6 +18,8 @@ class CreateComplaintsTable extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('officer_id');
             $table->text('complaint');
+            $table->string('latitude', 100);
+            $table->string('longitude', 100);
             $table->timestamps();
         });
     }
